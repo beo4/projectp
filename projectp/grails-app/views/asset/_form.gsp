@@ -57,7 +57,7 @@
 		
 	</label>
 	<uploader:uploader id="upload" url="${[controller:'ImageController', action:'upload']}" />
-	<g:select name="images" from="${projectp.util.Image.list()}" multiple="multiple" optionKey="id" size="5" value="${assetInstance?.images*.id}" class="many-to-many"/>
+	
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: assetInstance, field: 'latestValuation', 'error')} ">
