@@ -2,6 +2,7 @@
 <!doctype html>
 <html>
 	<head>
+		<r:require module="fileuploader" />
 		<meta name="layout" content="bootstrap">
 		<g:set var="entityName" value="${message(code: 'asset.label', default: 'Asset')}" />
 		<title><g:message code="default.create.label" args="[entityName]" /></title>

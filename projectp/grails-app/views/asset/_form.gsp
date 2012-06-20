@@ -35,12 +35,29 @@
 
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: assetInstance, field: 'documents', 'error')} ">
+	<label for="documents">
+		<g:message code="asset.documents.label" default="Documents" />
+		
+	</label>
+	<g:select name="documents" from="${projectp.util.Document.list()}" multiple="multiple" optionKey="id" size="5" value="${assetInstance?.documents*.id}" class="many-to-many"/>
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: assetInstance, field: 'events', 'error')} ">
 	<label for="events">
 		<g:message code="asset.events.label" default="Events" />
 		
 	</label>
 	<g:select name="events" from="${projectp.event.Event.list()}" multiple="multiple" optionKey="id" size="5" value="${assetInstance?.events*.id}" class="many-to-many"/>
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: assetInstance, field: 'images', 'error')} ">
+	<label for="images">
+		<g:message code="asset.images.label" default="Images" />
+		
+	</label>
+	<uploader:uploader id="upload" url="${[controller:'ImageController', action:'upload']}" />
+	<g:select name="images" from="${projectp.util.Image.list()}" multiple="multiple" optionKey="id" size="5" value="${assetInstance?.images*.id}" class="many-to-many"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: assetInstance, field: 'latestValuation', 'error')} ">

@@ -65,11 +65,29 @@
 						
 					</g:if>
 				
+					<g:if test="${assetInstance?.documents}">
+						<dt><g:message code="asset.documents.label" default="Documents" /></dt>
+						
+							<g:each in="${assetInstance.documents}" var="d">
+							<dd><g:link controller="document" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></dd>
+							</g:each>
+						
+					</g:if>
+				
 					<g:if test="${assetInstance?.events}">
 						<dt><g:message code="asset.events.label" default="Events" /></dt>
 						
 							<g:each in="${assetInstance.events}" var="e">
 							<dd><g:link controller="event" action="show" id="${e.id}">${e?.encodeAsHTML()}</g:link></dd>
+							</g:each>
+						
+					</g:if>
+				
+					<g:if test="${assetInstance?.images}">
+						<dt><g:message code="asset.images.label" default="Images" /></dt>
+						
+							<g:each in="${assetInstance.images}" var="i">
+							<dd><g:link controller="image" action="show" id="${i.id}">${i?.encodeAsHTML()}</g:link></dd>
 							</g:each>
 						
 					</g:if>
