@@ -16,6 +16,7 @@ class AssetController {
     }
 
     def create() {
+		log.info("start create")
 		switch (request.method) {
 		case 'GET':
         	[assetInstance: new Asset(params)]
@@ -26,7 +27,7 @@ class AssetController {
 	            render view: 'create', model: [assetInstance: assetInstance]
 	            return
 	        }
-
+			
 			flash.message = message(code: 'default.created.message', args: [message(code: 'asset.label', default: 'Asset'), assetInstance.id])
 	        redirect action: 'show', id: assetInstance.id
 			break

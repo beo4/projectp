@@ -8,16 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.multipart.MultipartHttpServletRequest
-import projectp.UploadService
 
-import uk.co.desirableobjects.ajaxuploader.AjaxUploaderService;
 import uk.co.desirableobjects.ajaxuploader.exception.FileUploadException
 
 class ImageController {
 
     static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST']
 	
-	UploadService ajaxUploaderService
+	def uploadService
 
     def index() {
         redirect action: 'list', params: params
@@ -49,15 +47,16 @@ class ImageController {
 	def upload = {
 		try {
 
+			log.debug("upload")
 			InputStream inputStream = selectInputStream(request)
 
-			byte[] file
-			ajaxUploaderService.upload(inputStream, file)
+			byte[] file 
+			uploadService.upload(inputStream, file)
 			
 			def imageInstance = new Image(image: file)
 			imageInstance.save()
 
-			return render(text: [success:true] as JSON, contentType:'text/json')
+			return render(text: [success:true, id: imageInstance.id] as JSON, contentType:'text/json')
 
 		} catch (FileUploadException e) {
 

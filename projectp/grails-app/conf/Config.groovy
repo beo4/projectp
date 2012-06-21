@@ -11,7 +11,7 @@
 // }
 
 
-grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination
+grails.project.groupId = projectp // change this to alter the default package name and Maven publishing destination
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
 grails.mime.use.accept.header = false
 grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
@@ -70,14 +70,23 @@ environments {
     }
 }
 
+def catalinaBase = System.properties.getProperty('catalina.base')
+if (!catalinaBase) catalinaBase = '.'   // just in case
+def logDirectory = "${catalinaBase}/logs"
+
 // log4j configuration
 log4j = {
     // Example of changing the log pattern for the default console
     // appender:
     //
-    //appenders {
-    //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
-    //}
+    appenders {
+        console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
+    }
+	
+//	appenders {
+//		rollingFile name:'stdout', file:"${logDirectory}/${appName}.log".toString(),  maxFileSize:'100MB'
+//		rollingFile name:'stacktrace', file:"${logDirectory}/${appName}_stack.log".toString(), maxFileSize:'100MB'
+//	 }
 
     error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
            'org.codehaus.groovy.grails.web.pages', //  GSP
@@ -90,6 +99,8 @@ log4j = {
            'org.springframework',
            'org.hibernate',
            'net.sf.ehcache.hibernate'
+		   
+		   root.level = org.apache.log4j.Level.DEBUG
 }
 
 
@@ -97,3 +108,37 @@ log4j = {
 grails.plugins.springsecurity.userLookup.userDomainClassName = 'projectp.sec.SecUser'
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'projectp.sec.SecUserSecRole'
 grails.plugins.springsecurity.authority.className = 'projectp.sec.SecRole'
+
+environments {
+	development {
+		log4j = {
+//			 Example of changing the log pattern for the default console
+//			 appender:
+			
+			appenders {
+			    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
+			}
+			
+		
+			error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
+				   'org.codehaus.groovy.grails.web.pages', //  GSP
+				   'org.codehaus.groovy.grails.web.sitemesh', //  layouts
+				   'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
+				   'org.codehaus.groovy.grails.web.mapping', // URL mapping
+				   'org.codehaus.groovy.grails.commons', // core / classloading
+				   'org.codehaus.groovy.grails.plugins', // plugins
+				   'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
+				   'org.springframework',
+				   'org.hibernate',
+				   'net.sf.ehcache.hibernate'
+				   
+				   root.level = org.apache.log4j.Level.DEBUG
+		}
+	}
+	test {
+		
+	}
+	production {
+		
+	}
+}
