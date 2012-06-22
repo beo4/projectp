@@ -7,8 +7,10 @@ class UploadService {
 
     static transactional = true
 
-    def upload(InputStream inputStream, byte[] array) {
+    public byte[] upload(InputStream inputStream) {
 
+		byte[] array
+		
         try {
 			array = inputStream.bytes
         } catch (Exception e) {
@@ -16,6 +18,8 @@ class UploadService {
         } finally {
                 IOUtils.closeQuietly(inputStream);
             }
+		
+		return array
 
     }
 }

@@ -8,5 +8,6 @@ class Image {
 	static mapping = { columns { image type:'blob' } }
 	
 	String name
+	String fileType
 	byte[] image
 }

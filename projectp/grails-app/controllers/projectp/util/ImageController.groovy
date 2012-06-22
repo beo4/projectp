@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.multipart.MultipartHttpServletRequest
+import org.springframework.web.multipart.commons.CommonsMultipartFile
 
 import uk.co.desirableobjects.ajaxuploader.exception.FileUploadException
 
@@ -46,15 +47,35 @@ class ImageController {
 	
 	def upload = {
 		try {
+			def contentType	= request.getHeader("Content-Type") as String
+			def fileName    = request.getHeader('X-File-Name') as String
+			def fileSize 	= request.getHeader('X-File-Size') as Long
+			def name 		= request.getHeader('X-Uploadr-Name') as String
+			def info		= session.getAttribute('uploadr')
+			int dot         = 0
+			def namePart    = ""
+			def extension   = ""
+			def testName    = ""
+			def testIterator= 1
+			int status      = 0
+			def statusText  = ""
+			
 
 			log.debug("upload")
 			InputStream inputStream = selectInputStream(request)
 
 			byte[] file 
-			uploadService.upload(inputStream, file)
+			file = uploadService.upload(inputStream)
 			
-			def imageInstance = new Image(image: file)
-			imageInstance.save()
+			def imageInstance = new Image(name: fileName, image: file, fileType: contentType)
+			if (!imageInstance.save(flush: true)) {
+				log.error("Failed to upload file.")
+				imageInstance.errors.each {
+			        println it
+			    }
+				return render(text: [success:false] as JSON, contentType:'text/json')
+			}
+			
 
 			return render(text: [success:true, id: imageInstance.id] as JSON, contentType:'text/json')
 
@@ -85,6 +106,15 @@ class ImageController {
 
         [imageInstance: imageInstance]
     }
+	
+	def viewImage= {
+		def imageInstance = Image.get(params.id)
+		response.setHeader("Content-disposition", "attachment; filename=${photo.name}")
+		response.contentType = imageInstance.fileType //'image/jpeg' will do too
+		response.outputStream << imageInstance.image //'myphoto.jpg' will do too
+		response.outputStream.flush()
+		return;
+	  }
 
     def edit() {
 		switch (request.method) {
