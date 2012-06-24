@@ -3,9 +3,9 @@ package projectp.util
 class Image {
 
     static constraints = {
+		image(maxSize:26843546)
     }
 	
-	static mapping = { columns { image type:'blob' } }
 	
 	String name
 	String fileType

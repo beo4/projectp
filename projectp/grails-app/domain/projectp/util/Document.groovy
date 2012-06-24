@@ -2,11 +2,12 @@ package projectp.util
 
 class Document {
 
-    static constraints = {
+	static constraints = {
+		document(maxSize:26843546)
     }
 	
-	static mapping = { columns { docfile type:'blob' } }
 	
 	String name
-	byte[] docfile
+	String fileType
+	byte[] document
 }

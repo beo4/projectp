@@ -4,7 +4,7 @@
 <div class="control-group ${invalid ? 'error' : ''}">
 	<label class="control-label" for="${property}">${label}</label>
 	<div class="controls">
-		<uploadr:add name="mySecondUploadr" path="tmp" maxVisible="5" controller="image" action="upload">
+		<uploadr:add name="imageUploadr" path="tmp" maxVisible="5" controller="image" action="upload">
  
 		</uploadr:add>
 		<ul>
