@@ -9,7 +9,6 @@ import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.multipart.MultipartHttpServletRequest
 
-import uk.co.desirableobjects.ajaxuploader.exception.FileUploadException
 
 class DocumentController {
 
@@ -78,7 +77,7 @@ class DocumentController {
 
 			return render(text: [success:true, id: imageInstance.id] as JSON, contentType:'text/json')
 
-		} catch (FileUploadException e) {
+		} catch (Exception e) {
 
 			log.error("Failed to upload file.", e)
 			return render(text: [success:false] as JSON, contentType:'text/json')

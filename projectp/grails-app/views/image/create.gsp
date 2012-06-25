@@ -4,6 +4,7 @@
 	<head>
 		<meta name="layout" content="bootstrap">
 		<g:set var="entityName" value="${message(code: 'image.label', default: 'Image')}" />
+		<r:require modules="uploadr"/>
 		<r:require module="fileuploader" />
 		<title><g:message code="default.create.label" args="[entityName]" /></title>
 	</head>

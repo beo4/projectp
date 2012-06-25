@@ -3,7 +3,7 @@ package projectp.util
 class Image {
 
     static constraints = {
-		image(maxSize:26843546)
+		image(maxSize:6843546)
     }
 	
 	

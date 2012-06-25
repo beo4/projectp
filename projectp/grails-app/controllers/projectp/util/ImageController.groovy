@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.multipart.MultipartHttpServletRequest
 import org.springframework.web.multipart.commons.CommonsMultipartFile
 
-import uk.co.desirableobjects.ajaxuploader.exception.FileUploadException
 
 class ImageController {
 
@@ -60,6 +59,8 @@ class ImageController {
 			int status      = 0
 			def statusText  = ""
 			
+			// set response content type to json
+			response.contentType    = 'application/json'
 
 			log.debug("upload")
 			InputStream inputStream = selectInputStream(request)
@@ -73,16 +74,22 @@ class ImageController {
 				imageInstance.errors.each {
 			        println it
 			    }
-				return render(text: [success:false] as JSON, contentType:'text/json')
+				response.setStatus(500, "Error upload '${fileName}'")
+				render([written: false, fileName: fileName] as JSON)
+				return false
 			}
 			
-
+			status = 200
+			statusText  = "'${fileName}' upload successful!"
+			// render json response
+			response.setStatus(status, statusText)
+			render([written: (status == 200), fileName: fileName, status: status, statusText: statusText] as JSON)
 			return render(text: [success:true, id: imageInstance.id] as JSON, contentType:'text/json')
 
-		} catch (FileUploadException e) {
+		} catch (Exception e) {
 
 			log.error("Failed to upload file.", e)
-			return render(text: [success:false] as JSON, contentType:'text/json')
+			return false
 
 		}
 
@@ -109,7 +116,7 @@ class ImageController {
 	
 	def viewImage= {
 		def imageInstance = Image.get(params.id)
-		response.setHeader("Content-disposition", "attachment; filename=${photo.name}")
+		response.setHeader("Content-disposition", "attachment; filename=${imageInstance.name}")
 		response.contentType = imageInstance.fileType //'image/jpeg' will do too
 		response.outputStream << imageInstance.image //'myphoto.jpg' will do too
 		response.outputStream.flush()

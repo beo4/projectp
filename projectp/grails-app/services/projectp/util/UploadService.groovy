@@ -1,6 +1,5 @@
 package projectp.util
 
-import uk.co.desirableobjects.ajaxuploader.exception.FileUploadException
 import org.apache.commons.io.IOUtils;
 
 class UploadService {
@@ -14,7 +13,7 @@ class UploadService {
         try {
 			array = inputStream.bytes
         } catch (Exception e) {
-            throw new FileUploadException(e)
+            throw new Exception(e)
         } finally {
                 IOUtils.closeQuietly(inputStream);
             }

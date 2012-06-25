@@ -45,11 +45,13 @@
 					<g:if test="${imageInstance?.image}">
 						<dt><g:message code="image.image.label" default="Image" /></dt>
 						
+						<dd><img class="img" src="${createLink(controller:'image', action:'viewImage', id: imageInstance.id)}" /></dd>
+						
 					</g:if>
 				
 					<g:if test="${imageInstance?.name}">
 						<dt><g:message code="image.name.label" default="Name" /></dt>
-						
+							
 							<dd><g:fieldValue bean="${imageInstance}" field="name"/></dd>
 						
 					</g:if>

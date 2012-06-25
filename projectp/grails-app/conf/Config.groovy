@@ -101,7 +101,7 @@ log4j = {
            'net.sf.ehcache.hibernate'
 	debug 'projectp'
 	   root {
-		   root.level = org.apache.log4j.Level.INFO
+		   root.level = org.apache.log4j.Level.DEBUG
 	   }
 		   
 }

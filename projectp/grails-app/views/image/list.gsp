@@ -55,7 +55,7 @@
 					<g:each in="${imageInstanceList}" var="imageInstance">
 						<tr>
 						
-							<td>${fieldValue(bean: imageInstance, field: "image")}</td>
+							<td><img class="img" src="${createLink(controller:'image', action:'viewImage', id: imageInstance.id)}" /></td>
 						
 							<td>${fieldValue(bean: imageInstance, field: "name")}</td>
 						
