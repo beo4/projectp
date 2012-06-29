@@ -62,6 +62,13 @@
 							<dd><g:fieldValue bean="${questionInstance}" field="question"/></dd>
 						
 					</g:if>
+					
+					<g:if test="${questionInstance?.answers}">
+						<dt><g:message code="answer.text.label" default="Answers" /></dt>
+							<g:each in="questionInstance?.answers" var="a"></g:each>
+							<dd><g:fieldValue bean="${a}" field="text"/></dd>
+						
+					</g:if>
 				
 				</dl>
 
@@ -72,12 +79,14 @@
 							<i class="icon-pencil"></i>
 							<g:message code="default.button.edit.label" default="Edit" />
 						</g:link>
+						
 						<button class="btn btn-danger" type="submit" name="_action_delete">
 							<i class="icon-trash icon-white"></i>
 							<g:message code="default.button.delete.label" default="Delete" />
 						</button>
 					</div>
 				</g:form>
+				<bootstrap:prompt url="[controller:'answer', action:'createAjax']" name="myAnswer" on404="alert('not found!')"/>
 
 			</div>
 

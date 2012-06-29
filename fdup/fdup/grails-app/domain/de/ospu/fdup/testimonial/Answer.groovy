@@ -12,5 +12,8 @@ class Answer {
 	
 	static belongsTo = [Question]
 	
-	
+	@Override
+	public String toString() {
+		return question;
+	}
 }

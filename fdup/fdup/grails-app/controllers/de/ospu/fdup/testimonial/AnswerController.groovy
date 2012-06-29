@@ -1,5 +1,6 @@
 package de.ospu.fdup.testimonial
 
+import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class AnswerController {
@@ -32,6 +33,24 @@ class AnswerController {
 			break
 		}
     }
+	
+	def createAjax() {
+		switch (request.method) {
+		case 'GET':
+			[answerInstance: new Answer(params)]
+			break
+		case 'POST':
+			def answerInstance = new Answer(params)
+			if (!answerInstance.save(flush: true)) {
+				render view: 'createAjax', model: [answerInstance: answerInstance]
+				return
+			}
+
+			flash.message = message(code: 'default.created.message', args: [message(code: 'answer.label', default: 'Answer'), answerInstance.id])
+			render answerInstance as JSON
+			break
+		}
+	}
 
     def show() {
         def answerInstance = Answer.get(params.id)

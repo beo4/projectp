@@ -101,6 +101,9 @@ log4j = {
            'org.springframework',
            'org.hibernate',
            'net.sf.ehcache.hibernate'
+		   root {
+			   root.level = org.apache.log4j.Level.DEBUG
+		   }
 }
 
 // Added by the Spring Security Core plugin:

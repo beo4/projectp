@@ -1,5 +1,7 @@
 package de.ospu.fdup.examinee
 
+import grails.plugins.springsecurity.Secured;
+
 import org.springframework.dao.DataIntegrityViolationException
 
 import de.ospu.fdup.security.SecRole;
