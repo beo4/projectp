@@ -86,7 +86,7 @@
 						</button>
 					</div>
 				</g:form>
-				<bootstrap:prompt url="[controller:'answer', action:'createAjax']" name="myAnswer" on404="alert('not found!')"/>
+				<bootstrap:prompt url="[controller:'answer', action:'createAjax', params: ['question.id': questionInstance.id]]" name="myAnswer" on404="alert('not found!')"/>
 
 			</div>
 

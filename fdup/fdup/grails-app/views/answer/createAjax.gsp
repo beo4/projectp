@@ -28,15 +28,11 @@
 		</g:hasErrors>
 
 		<fieldset>
-			<g:form class="form-horizontal" action="create">
+			<g:form class="form-horizontal" action="createAjax" name="answerFor${answerInstance?.question?.id}">
 				<fieldset>
-					<f:all bean="answerInstance" />
-					<div class="form-actions">
-						<button type="submit" class="btn btn-primary">
-							<i class="icon-ok icon-white"></i>
-							<g:message code="default.button.create.label" default="Create" />
-						</button>
-					</div>
+					<f:field bean="answerInstance" property="text"/>
+					<f:field bean="answerInstance" property="points"/>
+					<f:field bean="answerInstance" property="question" class="hidden"/>
 				</fieldset>
 			</g:form>
 		</fieldset>

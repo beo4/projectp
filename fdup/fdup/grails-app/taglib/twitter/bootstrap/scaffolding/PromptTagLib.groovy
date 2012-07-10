@@ -13,6 +13,7 @@ class PromptTagLib {
 
 		def name = attrs.name
 		def map
+		def questionID = attrs.url.params.'question.id'
 		
 		attrs.onSuccess=name + "bootbox(data)"
 		attrs.onFailure =name + "bootbox(data)"
@@ -30,15 +31,15 @@ class PromptTagLib {
 				}
 		out << g.javascript(){
 			'function ' + name + 'bootbox(e) {'+
-			'bootbox.alert(e){'+
-			'[{ '+
+			'bootbox.dialog(e, [{'+
                    ' "label" : "Success!",'+
                    ' "class" : "btn-success",'+
                    ' "callback": function() {'+
-                    '    console.log("great success");'+
+                    '    console.log("Create Answer for Question with ID: " + '+questionID+');'+
+					'	 jQuery(\'#answerFor'+questionID+'\').submit();'+
                     '}'+
                 '}'+
-			']}}'
+			'])}'
 		}
 
 		
