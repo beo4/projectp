@@ -28,13 +28,13 @@
 		</g:hasErrors>
 
 		<fieldset>
-			<g:form class="form-horizontal" action="createAjax" name="answerFor${answerInstance?.question?.id}">
+			<g:formRemote class="form-horizontal" action="createAjax" url="[controller: 'answer', action: 'createAjax']" name="answerFor${answerInstance?.question?.id}" onSuccess="addAnswer(data)">
 				<fieldset>
 					<f:field bean="answerInstance" property="text"/>
 					<f:field bean="answerInstance" property="points"/>
-					<f:field bean="answerInstance" property="question" class="hidden"/>
+					<g:hiddenField name="question.id" value="${answerInstance?.question?.id}"/>
 				</fieldset>
-			</g:form>
+			</g:formRemote>
 		</fieldset>
 
 	</div>

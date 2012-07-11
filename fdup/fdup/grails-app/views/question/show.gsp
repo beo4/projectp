@@ -63,12 +63,8 @@
 						
 					</g:if>
 					
-					<g:if test="${questionInstance?.answers}">
-						<dt><g:message code="answer.text.label" default="Answers" /></dt>
-							<g:each in="questionInstance?.answers" var="a"></g:each>
-							<dd><g:fieldValue bean="${a}" field="text"/></dd>
 						
-					</g:if>
+					<f:field bean="questionInstance" property="answers" name="answer"/>
 				
 				</dl>
 
@@ -86,8 +82,16 @@
 						</button>
 					</div>
 				</g:form>
-				<bootstrap:prompt url="[controller:'answer', action:'createAjax', params: ['question.id': questionInstance.id]]" name="myAnswer" on404="alert('not found!')"/>
-
+				<bootstrap:prompt url="[controller:'answer', action:'createAjax', params: ['question.id': questionInstance.id]]" name="myAnswer" on404="alert('not found!')" />
+				<g:javascript>
+				var link = '<%= createLink(action:'show',controller:'answer')%>/';
+					function addAnswer(response) {
+						jQuery("#answer ul").append(
+						jQuery('<li>').append(jQuery('<a>').prop('href', link + response.id).append(
+					            response.text))
+					);
+					}
+				</g:javascript>
 			</div>
 
 		</div>
