@@ -23,4 +23,9 @@ class Examinee {
 	}
 	
 	static hasMany = [questionnaires:Questionnaire]
+	
+	
+	public Questionnaire getActualQuestionnaire() {
+		return Questionnaire.findWhere(examinee: this, stop: null )
+	}
 }

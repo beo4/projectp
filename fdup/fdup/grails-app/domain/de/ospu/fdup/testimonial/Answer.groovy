@@ -3,16 +3,18 @@ package de.ospu.fdup.testimonial
 class Answer {
 
     static constraints = {
-		order(unique: true)
+		
     }
 	
 	String text
 	Question question
 	int points
-	int order
-	boolean active
+	boolean active = true
 	
 	static belongsTo = [Question]
+	
+	static mapping = {
+	}
 	
 	@Override
 	public String toString() {

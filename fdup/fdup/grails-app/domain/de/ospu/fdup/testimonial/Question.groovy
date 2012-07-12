@@ -8,11 +8,14 @@ class Question {
 	String name
 	String question
 	
-	boolean activeQuestion
+	boolean activeQuestion = true
 	
 	Area area
 	
 	static hasMany = [answers:Answer]
+	
+	static mapping = {
+	}
 	
 	@Override
 	public String toString() {

@@ -7,8 +7,14 @@ class Area {
 	
 	String name
 	
+	
+	static mapping = {
+	}
+	
 	@Override
 	public String toString() {
 		return name;
 	}
+	
+	
 }

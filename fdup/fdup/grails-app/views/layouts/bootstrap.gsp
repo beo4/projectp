@@ -54,7 +54,10 @@
 							  <li><g:link controller="login" action="auth">Login</g:link></li>
 							</sec:ifNotLoggedIn>
 							<sec:ifLoggedIn>
-							  <li><g:link controller="logout"><sec:username /> (sign out)</g:link></li>
+							  <g:set var="fullName" value="${sec.loggedInUserInfo(field:"username")}" />
+							  <g:set var="id" value="${sec.loggedInUserInfo(field:"id")}" />
+							  <li><g:link controller="questionnaire" action="test" params="[userId: id]">Start Test</g:link></li>
+							  <li><g:link controller="logout">${fullName} (sign out)</g:link></li>
 							</sec:ifLoggedIn>
 						</ul>
 					</div>

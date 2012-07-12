@@ -1,8 +1,10 @@
 package de.ospu.fdup.testimonial
 
+import de.ospu.fdup.security.SecUser
 import org.springframework.dao.DataIntegrityViolationException
 
 class QuestionnaireController {
+	def springSecurityService
 
     static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST']
 
@@ -23,6 +25,11 @@ class QuestionnaireController {
 		case 'POST':
 	        def questionnaireInstance = new Questionnaire(params)
 			
+			if (Questionnaire.findWhere(examinee:questionnaireInstance.examinee, active: true )) {
+				flash.message = message(code: 'default.allready.exist', args: [message(code: 'questionnaire.label', default: 'Questionnaire'), params.id])
+				render view: 'create', model: [questionnaireInstance: questionnaireInstance]
+				return
+			}
 			
 	        if (!questionnaireInstance.save(flush: true)) {
 	            render view: 'create', model: [questionnaireInstance: questionnaireInstance]
@@ -47,6 +54,66 @@ class QuestionnaireController {
 
         [questionnaireInstance: questionnaireInstance]
     }
+	
+	def test() {
+		switch (request.method) {
+			case 'GET':
+				
+				
+				def user = SecUser.get(springSecurityService.principal.id)
+			
+		        def questionnaireInstance = user.examinee.getActualQuestionnaire()
+		        if (!questionnaireInstance) {
+		            flash.message = message(code: 'default.not.found.message', args: [message(code: 'questionnaire.label', default: 'Questionnaire'), params.id])
+		            redirect action: 'list'
+		            return
+		        }
+	
+		        [questionnaireInstance: questionnaireInstance]
+				break
+			case 'POST':
+				def questionnaireInstance = Questionnaire.get(params.id)
+				if (!questionnaireInstance) {
+					flash.message = message(code: 'default.not.found.message', args: [message(code: 'questionnaire.label', default: 'Questionnaire'), params.id])
+					redirect action: 'list'
+					return
+				}
+				if (params.version) {
+					def version = params.version.toLong()
+					if (questionnaireInstance.version > version) {
+						questionnaireInstance.errors.rejectValue('version', 'default.optimistic.locking.failure',
+								  [message(code: 'questionnaire.label', default: 'Questionnaire')] as Object[],
+								  "Another user has updated this Questionnaire while you were editing")
+						render view: 'edit', model: [questionnaireInstance: questionnaireInstance]
+						return
+					}
+				}
+				questionnaireInstance.properties = params
+				for (QuestionnaireQuestion questionnaireQuestion : questionnaireInstance.questionnaireQuestions) {
+					
+					String questionId = questionnaireQuestion.id
+					def para = params.get(questionId)
+					long answerId = params.long(questionId);
+					questionnaireQuestion.answer = Answer.get(answerId)
+					
+					if (!questionnaireQuestion.save(flush: true)) {
+		            render view: 'test', model: [questionnaireInstance: questionnaireInstance]
+		            return
+		        }
+				}
+				
+				
+				
+				 if (!questionnaireInstance.save(flush: true)) {
+		            render view: 'test', model: [questionnaireInstance: questionnaireInstance]
+		            return
+		        }
+	
+				flash.message = message(code: 'default.updated.message', args: [message(code: 'questionnaire.label', default: 'Questionnaire'), questionnaireInstance.id])
+		        redirect action: 'test', id: questionnaireInstance.id
+				break
+			}
+	}
 
     def edit() {
 		switch (request.method) {

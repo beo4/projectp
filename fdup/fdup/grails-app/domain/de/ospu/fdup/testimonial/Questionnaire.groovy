@@ -12,6 +12,7 @@ class Questionnaire {
 	Examinee examinee
 	Date start
 	Date stop
+	boolean active = true
 	
 	static hasMany = [questionnaireQuestions:QuestionnaireQuestion]
 	
