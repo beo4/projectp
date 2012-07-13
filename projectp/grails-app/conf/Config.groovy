@@ -73,6 +73,7 @@ environments {
 def catalinaBase = System.properties.getProperty('catalina.base')
 if (!catalinaBase) catalinaBase = '.'   // just in case
 def logDirectory = "${catalinaBase}/logs"
+def appName = "projetp"
 
 // log4j configuration
 log4j = {
