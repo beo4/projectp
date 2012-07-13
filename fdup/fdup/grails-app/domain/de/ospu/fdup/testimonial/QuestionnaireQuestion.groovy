@@ -14,6 +14,8 @@ class QuestionnaireQuestion {
 	Question question
 	Questionnaire questionnaire
 	Answer answer
+	int order = 0
+	
 	
 	static belongsTo = [Questionnaire]
 	
@@ -22,6 +24,7 @@ class QuestionnaireQuestion {
 		if (!q)
 		{
 			q = new QuestionnaireQuestion(question: question)
+			q.order = question.order
 			questionnaire.addToQuestionnaireQuestions(q);
 			q.save()
 		}

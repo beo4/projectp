@@ -23,8 +23,8 @@ class PromptTagLib {
 		out << g.formRemote(attrs){
 					out << '<div class="form-actions">'
 					out << '<button type="submit" class="btn btn-primary bs-prompt">'
-					out << '	<i class="icon-add icon-white"></i>'
-					out << g.message(code:"default.button.create.label", default:"Create" )
+					out << '	<i class="icon-plus-sign icon-white"></i>'
+					out << g.message(code:"question.button.createAnswer.label", default:"Create" )
 					out << '</button>'
 					out << '</div>'
 					

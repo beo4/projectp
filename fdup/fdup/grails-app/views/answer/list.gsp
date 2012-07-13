@@ -50,6 +50,8 @@
 						
 							<g:sortableColumn property="text" title="${message(code: 'answer.text.label', default: 'Text')}" />
 						
+							<g:sortableColumn property="ordering" title="${message(code: 'answer.ordering.label', default: 'Reihenfolge')}" />
+						
 							<th></th>
 						</tr>
 					</thead>
@@ -63,8 +65,11 @@
 						
 							<td>${fieldValue(bean: answerInstance, field: "text")}</td>
 						
+							<td><f:field bean="${answerInstance}" property="ordering"/></td>
+						
 							<td class="link">
 								<g:link action="show" id="${answerInstance.id}" class="btn btn-small">Show &raquo;</g:link>
+								<g:link action="edit" id="${answerInstance.id}" class="btn btn-small"><i class="icon-pencil"></i>Edit</g:link>
 							</td>
 						</tr>
 					</g:each>

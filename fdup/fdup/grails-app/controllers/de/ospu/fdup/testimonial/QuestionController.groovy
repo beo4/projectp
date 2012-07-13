@@ -1,5 +1,6 @@
 package de.ospu.fdup.testimonial
 
+import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class QuestionController {
@@ -13,8 +14,10 @@ class QuestionController {
     }
 
     def list() {
+		def areas = Area.findAll()
+		
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [questionInstanceList: Question.list(params), questionInstanceTotal: Question.count()]
+        [questionInstanceList: Question.list(params), questionInstanceTotal: Question.count(), areas: areas]
     }
 
     def create() {
@@ -108,5 +111,34 @@ class QuestionController {
             redirect action: 'show', id: params.id
         }
     }
+	
+	def sort(){
+		switch (request.method) {
+			case 'GET':
+				render message(code: 'default.updated.message', args: [message(code: 'area.label', default: 'Area'), areaInstance.id]) as JSON
+				break
+			case 'POST':
+				def questionInstance = Question.get(params.id)
+				if (!questionInstance) {
+					flash.message = message(code: 'default.not.found.message', args: [message(code: 'area.label', default: 'Area'), params.id])
+					redirect action: 'list'
+					return
+				}
+				
+				
+				questionInstance.properties = params
+				
+				if (!questionInstance.save(flush: true)) {
+					render  questionInstance as JSON
+					return
+				}
+				
+				[questionInstance: questionInstance]
+	
+				flash.message = message(code: 'default.updated.message', args: [message(code: 'area.label', default: 'Area'), areaInstance.id])
+				render questionInstance as JSON
+				break
+			}
+	}
 	
 }

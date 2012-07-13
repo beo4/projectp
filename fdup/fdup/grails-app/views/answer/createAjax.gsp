@@ -5,6 +5,7 @@
 
 		<div class="page-header">
 			<h1>
+			<g:set var="entityName" value="${message(code: 'answer.label', default: 'Answer')}" />
 				<g:message code="default.create.label" args="[entityName]" />
 			</h1>
 		</div>
@@ -33,6 +34,7 @@
 					<g:hiddenField name="active" value="true"/>
 					<f:field bean="answerInstance" property="text"/>
 					<f:field bean="answerInstance" property="points"/>
+					<f:field bean="answerInstance" property="ordering"/>
 					<g:hiddenField name="question.id" value="${answerInstance?.question?.id}"/>
 				</fieldset>
 			</g:formRemote>

@@ -45,6 +45,7 @@
 						<tr>
 						
 							<g:sortableColumn property="name" title="${message(code: 'area.name.label', default: 'Name')}" />
+							<g:sortableColumn property="ordering" title="${message(code: 'area.ordering.label', default: 'Reihenfolge')}" />
 						
 							<th></th>
 						</tr>
@@ -54,9 +55,12 @@
 						<tr>
 						
 							<td>${fieldValue(bean: areaInstance, field: "name")}</td>
-						
+							<td>
+							<f:field bean="${areaInstance}" property="ordering"/>
+							</td>
 							<td class="link">
 								<g:link action="show" id="${areaInstance.id}" class="btn btn-small">Show &raquo;</g:link>
+								<g:link action="edit" id="${areaInstance.id}" class="btn btn-small"><i class="icon-pencil"></i>Edit</g:link>
 							</td>
 						</tr>
 					</g:each>

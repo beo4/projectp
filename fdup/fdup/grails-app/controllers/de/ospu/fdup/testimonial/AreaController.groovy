@@ -1,5 +1,6 @@
 package de.ospu.fdup.testimonial
 
+import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class AreaController {
@@ -106,4 +107,31 @@ class AreaController {
             redirect action: 'show', id: params.id
         }
     }
+	
+	def sort(){
+		switch (request.method) {
+			case 'GET':
+				render message(code: 'default.updated.message', args: [message(code: 'area.label', default: 'Area'), areaInstance.id]) as JSON
+				break
+			case 'POST':
+				def areaInstance = Area.get(params.id)
+				if (!areaInstance) {
+					flash.message = message(code: 'default.not.found.message', args: [message(code: 'area.label', default: 'Area'), params.id])
+		            redirect action: 'list'
+		            return
+		        }
+				
+				
+				areaInstance.properties = params
+				
+				if (!areaInstance.save(flush: true)) {
+					render  areaInstance as JSON
+					return
+				}
+	
+				flash.message = message(code: 'default.updated.message', args: [message(code: 'area.label', default: 'Area'), areaInstance.id])
+				render areaInstance as JSON
+				break
+			}
+	}
 }
