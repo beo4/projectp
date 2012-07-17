@@ -9,6 +9,7 @@ class Area {
 	
 	String name
 	int ordering = 0
+	SortedSet<Question> questions
 	
 	static hasMany = [questions:Question]
 	

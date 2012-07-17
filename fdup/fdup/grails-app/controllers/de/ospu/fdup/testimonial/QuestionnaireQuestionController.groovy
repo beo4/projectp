@@ -1,5 +1,6 @@
 package de.ospu.fdup.testimonial
 
+import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class QuestionnaireQuestionController {
@@ -11,7 +12,7 @@ class QuestionnaireQuestionController {
     }
 
     def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        params.max = Math.min(params.max ? params.int('max') : 100, 100)
         [questionnaireQuestionInstanceList: QuestionnaireQuestion.list(params), questionnaireQuestionInstanceTotal: QuestionnaireQuestion.count()]
     }
 
@@ -87,6 +88,43 @@ class QuestionnaireQuestionController {
 			break
 		}
     }
+	
+	def editAjax() {
+		switch (request.method) {
+		case 'GET':
+		render status: HttpServletResponse.SC_INTERNAL_SERVER_ERROR
+			break
+		case 'POST':
+			def questionnaireQuestionInstance = QuestionnaireQuestion.get(params.id)
+			if (!questionnaireQuestionInstance) {
+				flash.message = message(code: 'default.not.found.message', args: [message(code: 'questionnaireQuestion.label', default: 'QuestionnaireQuestion'), params.id])
+				render status: HttpServletResponse.SC_INTERNAL_SERVER_ERROR
+				return
+			}
+
+			if (params.version) {
+				def version = params.version.toLong()
+				if (questionnaireQuestionInstance.version > version) {
+					questionnaireQuestionInstance.errors.rejectValue('version', 'default.optimistic.locking.failure',
+							  [message(code: 'questionnaireQuestion.label', default: 'QuestionnaireQuestion')] as Object[],
+							  "Another user has updated this QuestionnaireQuestion while you were editing")
+					render status: HttpServletResponse.SC_INTERNAL_SERVER_ERROR
+					return
+				}
+			}
+
+			questionnaireQuestionInstance.properties = params
+
+			if (!questionnaireQuestionInstance.save(flush: true)) {
+				render status: HttpServletResponse.SC_INTERNAL_SERVER_ERROR
+				return
+			}
+
+			
+			render  questionnaireQuestionInstance as JSON
+			break
+		}
+	}
 
     def delete() {
         def questionnaireQuestionInstance = QuestionnaireQuestion.get(params.id)

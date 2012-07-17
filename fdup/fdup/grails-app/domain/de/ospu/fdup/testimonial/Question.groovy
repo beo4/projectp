@@ -1,11 +1,11 @@
 package de.ospu.fdup.testimonial
 
-class Question {
+class Question implements Comparable {
 
     static constraints = {
 		name()
-		question()
 		ordering ()
+		question(maxSize: 1000)
     }
 	
 	String name
@@ -13,6 +13,7 @@ class Question {
 	boolean activeQuestion = true
 	Area area
 	int ordering = 0
+	SortedSet<Answer> answers
 	
 	static hasMany = [answers:Answer]
 	
@@ -25,6 +26,11 @@ class Question {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return question;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		return (ordering!=o.ordering)? ordering - o.ordering:-1
 	}
 	
 	

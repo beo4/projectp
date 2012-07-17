@@ -13,7 +13,7 @@ class QuestionnaireController {
     }
 
     def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        params.max = Math.min(params.max ? params.int('max') : 100, 100)
         [questionnaireInstanceList: Questionnaire.list(params), questionnaireInstanceTotal: Questionnaire.count()]
     }
 

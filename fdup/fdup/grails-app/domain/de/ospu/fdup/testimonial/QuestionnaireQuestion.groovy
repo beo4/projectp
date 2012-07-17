@@ -1,6 +1,6 @@
 package de.ospu.fdup.testimonial
 
-class QuestionnaireQuestion {
+class QuestionnaireQuestion implements Comparable{
 
     static constraints = {
 		answer(nullable: true, blank:true)
@@ -14,7 +14,7 @@ class QuestionnaireQuestion {
 	Question question
 	Questionnaire questionnaire
 	Answer answer
-	int order = 0
+	int ordering = 0
 	
 	
 	static belongsTo = [Questionnaire]
@@ -24,7 +24,7 @@ class QuestionnaireQuestion {
 		if (!q)
 		{
 			q = new QuestionnaireQuestion(question: question)
-			q.order = question.order
+			q.ordering = question.ordering
 			questionnaire.addToQuestionnaireQuestions(q);
 			q.save()
 		}
@@ -39,5 +39,10 @@ class QuestionnaireQuestion {
 			questionnaire?.removeToQuestionnaireQuestions(q)
 			q.delete()
 		}
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		return (ordering!=o.ordering)? ordering - o.ordering:1;
 	}
 }

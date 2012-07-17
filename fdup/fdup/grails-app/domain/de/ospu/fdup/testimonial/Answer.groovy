@@ -1,9 +1,9 @@
 package de.ospu.fdup.testimonial
 
-class Answer {
+class Answer implements Comparable {
 
     static constraints = {
-		text()
+		text(maxSize: 1000)
 		ordering()
     }
 	
@@ -23,5 +23,10 @@ class Answer {
 	@Override
 	public String toString() {
 		return text;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		return (ordering!=o.ordering)? ordering - o.ordering:-1
 	}
 }

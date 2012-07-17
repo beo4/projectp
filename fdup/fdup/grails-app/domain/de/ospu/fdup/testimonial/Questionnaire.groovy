@@ -13,6 +13,7 @@ class Questionnaire {
 	Date start
 	Date stop
 	boolean active = true
+	SortedSet<QuestionnaireQuestion> questionnaireQuestions
 	
 	static hasMany = [questionnaireQuestions:QuestionnaireQuestion]
 	
