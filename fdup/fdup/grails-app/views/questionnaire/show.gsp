@@ -63,13 +63,25 @@
 							<dd><g:link controller="examinee" action="show" id="${questionnaireInstance?.examinee?.id}">${questionnaireInstance?.examinee?.encodeAsHTML()}</g:link></dd>
 						
 					</g:if>
-					
-					<g:if test="${questionnaireInstance?.questions()}">
+					<g:set var="currentArea" value=""/>
+					<g:if test="${questionnaireInstance?.questionnaireQuestions}">
 						<dt><g:message code="questionnaire.questions.label" default="Questions" /></dt>
-							<g:each in="${questionnaireInstance?.questions()}" var="q">
-							<dd><g:link controller="question" action="show" id="${q.id}">${q.encodeAsHTML()}</g:link></dd>
+							<g:each in="${questionnaireInstance?.questionnaireQuestions}" var="q">
+							<g:if test="${q.question.area != currentArea}">
+								<g:set var="currentArea" value="${q.question.area}"/>
+								${currentArea.encodeAsHTML()}
+							</g:if>
+							<dd>${q.question.encodeAsHTML()} -
+							<g:if test="${q.answer }">
+								${q.answer.encodeAsHTML() } - 
+								${q.answer.points}
+							</g:if>
+							</dd>
 							</g:each>
 					</g:if>
+					
+					
+					
 				
 				</dl>
 

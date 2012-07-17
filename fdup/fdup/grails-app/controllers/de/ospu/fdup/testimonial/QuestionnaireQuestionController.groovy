@@ -112,6 +112,10 @@ class QuestionnaireQuestionController {
 					return
 				}
 			}
+			
+			if (!params.'answer.id') {
+				render status: HttpServletResponse.SC_INTERNAL_SERVER_ERROR
+			}
 
 			questionnaireQuestionInstance.properties = params
 

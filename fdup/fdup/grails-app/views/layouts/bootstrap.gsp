@@ -38,8 +38,16 @@
 						<span class="icon-bar"></span>
 					</a>
 					
+					<g:if test="${(questionnaireInstance && questionnaireInstance.start != null)}">
+					<div class="nav-collapse">
+						<ul class="nav">
+							<li class="brand">F DUP</li>
+							<li class="brand">Prüfung gestartet</li>
+							</ul>
+						</div>
+					</g:if>
+					<g:else>
 					<a class="brand" href="${createLink(uri: '/')}">F DUP</a>
-
 					<div class="nav-collapse">
 						<ul class="nav">
 							<li<%= request.forwardURI == "${createLink(uri: '/')}" ? ' class="active"' : '' %>><a href="${createLink(uri: '/')}">Home</a></li>
@@ -56,11 +64,14 @@
 							<sec:ifLoggedIn>
 							  <g:set var="fullName" value="${sec.loggedInUserInfo(field:"username")}" />
 							  <g:set var="id" value="${sec.loggedInUserInfo(field:"id")}" />
+
+							  
 							  <li><g:link controller="questionnaire" action="test" params="[userId: id]">Start Test</g:link></li>
 							  <li><g:link controller="logout">${fullName} (sign out)</g:link></li>
 							</sec:ifLoggedIn>
 						</ul>
 					</div>
+					</g:else>
 				</div>
 			</div>
 		</nav>

@@ -54,35 +54,55 @@
 				
 				<section id="sl-slider" class="sl-slider">
 				    <g:each in="${questionnaireInstance?.questionnaireQuestions}" var="questionnaireQuestion" status="i">
-				    <div class="sl-slide">
-				    	<fieldset>
-						<g:formRemote class="form-horizontal" name="${questionnaireQuestion?.id}" 
+				    	
+						<g:formRemote class="form-horizontal sl-slide" name="${questionnaireQuestion?.id}"
 						url="[action: 'editAjax', controller: 'QuestionnaireQuestion']"
-						onSuccess="jQuery( '#sl-slider' ).slitslider()._navigate( 'in' );" onFailure="alert('Fehler!')" >
+						onSuccess="jQuery( '#sl-slider' ).slitslider('_navigate','in')" onFailure="alert('Fehler!')" >
+					    	<fieldset>
 					    	<g:hiddenField name="id" value="${questionnaireQuestion?.id}"/>
-					        <div class="sl-deco" data-icon="${questionnaireQuestion?.id}"></div>
+					        <div class="sl-deco" data-icon="${i+1}"></div>
 					        <h2>${questionnaireQuestion?.question?.question}</h2>
 					        <blockquote>
-								<ul>
-									<g:radioGroup value="${(questionnaireQuestion.answer)?questionnaireQuestion.answer.id : "" }" values="${questionnaireQuestion.question.answers.id}"  labels="${questionnaireQuestion.question.answers.text}" name="answer.id">
-										<li><span>${it.radio}</span><g:message code="${it.label}" /></li>
-									</g:radioGroup>
-								</ul>
+					        	
+
+								
+								<f:field bean="${questionnaireQuestion }" property="answer" />
 								
 					        </blockquote>
-					        
-				        </g:formRemote>
-				        <nav>
-				<g:if test="${i != 0}"> <span class="sl-prev btn btn-danger"><i class="icon-chevron-left icon-white"></i>Previous</span> </g:if>
-				<span class="sl-next btn btn-success" id="name="${questionnaireQuestion?.id}"">
-									<i class="icon-ok icon-white"></i>
-									<g:message code="questionnaire.test.save.nextquestion" default="Save and next" />
-				</button>
-				</nav>
-				    </div>
+
+								<nav>
+									<g:if test="${i != questionnaireInstance?.questionnaireQuestions.size()-1}">
+									<button type="submit" class="sl-next btn btn-success" id="name="${questionnaireQuestion?.id}"">
+										<i class="icon-ok icon-white"></i> <g:message
+											code="questionnaire.test.save.nextquestion"
+											default="Save and next" />
+										</button>
+									</g:if>
+									<g:else>
+									<g:hiddenField name="last" value="true"/>
+									<button type="submit" class="sl-next btn btn-success" id="name="${questionnaireQuestion?.id}"">
+										<i class="icon-ok icon-white"></i> <g:message
+											code="questionnaire.test.save.finishquestion"
+											default="Save and exit" />
+										</button>
+									</g:else>
+								</nav>
+								
+							</fieldset>
+							</g:formRemote>
+				        	
 				    
 				     </g:each>
-				
+					
+					<div class="sl-slide">
+				        <div class="sl-deco" data-icon="Ende"></div>
+				        <h2>Danke!</h2>
+				        <blockquote>
+				            <p>Sie haben den Test beendet
+				            </p>
+				        </blockquote>
+				    </div>
+					 
 				</section>
 
 				<jq:jquery>
@@ -92,37 +112,6 @@
 				
 				});
 				</jq:jquery>
-
-				<fieldset>
-					<g:form class="form-horizontal" action="test" id="${questionnaireInstance?.id}" >
-						<g:hiddenField name="version" value="${questionnaireInstance?.version}" />
-						<fieldset>
-							<g:hiddenField name="examinee.id" value="${questionnaireInstance?.examinee?.id}"/>
-							
-							<g:each in="${questionnaireInstance?.questionnaireQuestions}" var="questionnaireQuestions">
-							<div>
-								${questionnaireQuestions.question.question}
-								<ul>
-								<g:radioGroup value="${(questionnaireQuestions.answer)?questionnaireQuestions.answer.id : "" }" values="${questionnaireQuestions.question.answers.id}"  labels="${questionnaireQuestions.question.answers.text}" name="${questionnaireQuestions?.id}">
-									<li><span>${it.radio}</span><g:message code="${it.label}" /></li>
-								</g:radioGroup>
-								</ul>
-							</div>
-							</g:each>
-							
-							<div class="form-actions">
-								<button type="submit" class="btn btn-primary">
-									<i class="icon-ok icon-white"></i>
-									<g:message code="default.button.update.label" default="Update" />
-								</button>
-								<button type="submit" class="btn btn-danger" name="_action_delete" formnovalidate>
-									<i class="icon-trash icon-white"></i>
-									<g:message code="default.button.delete.label" default="Delete" />
-								</button>
-							</div>
-						</fieldset>
-					</g:form>
-				</fieldset>
 
 			</div>
 

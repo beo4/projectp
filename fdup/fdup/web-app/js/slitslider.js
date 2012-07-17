@@ -375,7 +375,7 @@
 					return;
 				}
 				
-				if ( !$.isFunction( instance[options] ) || options.charAt(0) === "_" ) {
+				if ( !$.isFunction( instance[options] ) || (!options.charAt(0) === "_" && options === "_navigate" )) {
 					logError( "no such method '" + options + "' for slitslider instance" );
 					return;
 				}

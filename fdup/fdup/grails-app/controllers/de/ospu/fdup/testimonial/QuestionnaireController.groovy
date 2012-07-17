@@ -1,6 +1,10 @@
 package de.ospu.fdup.testimonial
 
 import de.ospu.fdup.security.SecUser
+
+import grails.plugins.springsecurity.Secured
+
+import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 import org.springframework.dao.DataIntegrityViolationException
 
 class QuestionnaireController {
@@ -44,6 +48,7 @@ class QuestionnaireController {
 		}
     }
 
+	@Secured(['ROLE_ADMIN'])
     def show() {
         def questionnaireInstance = Questionnaire.get(params.id)
         if (!questionnaireInstance) {
@@ -51,16 +56,25 @@ class QuestionnaireController {
             redirect action: 'list'
             return
         }
+		
+		
+		
 
         [questionnaireInstance: questionnaireInstance]
     }
 	
+	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def test() {
 		switch (request.method) {
 			case 'GET':
 				
-				
 				def user = SecUser.get(springSecurityService.principal.id)
+				
+				if (!user) {
+					redirect action: 'list'
+					return
+				}
+				
 			
 		        def questionnaireInstance = user.examinee.getActualQuestionnaire()
 		        if (!questionnaireInstance) {
@@ -68,6 +82,14 @@ class QuestionnaireController {
 		            redirect action: 'list'
 		            return
 		        }
+				
+				questionnaireInstance.start = new Date()
+				
+				if (!questionnaireInstance.save(flush: true)) {
+					flash.message = message(code: 'default.not.found.message', args: [message(code: 'questionnaire.label', default: 'Questionnaire'), params.id])
+					redirect action: 'list'
+					return
+				}
 	
 		        [questionnaireInstance: questionnaireInstance]
 				break

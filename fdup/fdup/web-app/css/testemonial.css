@@ -7,7 +7,7 @@
 
 /* Navigation arrows */
 
-.sl-slider nav span {
+.sl-slider nav span ,.sl-slider nav button, .sl-slider nav input{
 	position: fixed;
 	z-index: 2000;
 	top: 50%;
@@ -25,7 +25,7 @@
 	border-top: none;
 }
 
-.sl-slider nav span.sl-next {
+.sl-slider nav span.sl-next, .sl-slider nav button.sl-next, .sl-slider nav input.sl-next {
 	right: 60px;
 	border-left: none;
 	border-bottom: none;

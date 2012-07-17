@@ -12,6 +12,7 @@ class ExamineeController {
 
     static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST']
 
+	
     def index() {
         redirect action: 'list', params: params
     }

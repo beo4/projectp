@@ -9,6 +9,17 @@
 		<div class="row-fluid">
 			<aside id="application-status" class="span3">
 				<div class="well sidebar-nav">
+				<g:img file="ospulogo_transparent.png" />
+				<p>
+				<address>
+				OSPU business consult GmbH<br>
+				Fasaneriestraße 27<br>
+				66482 Zweibrücken<br>
+				</address>
+				Telefon: 06332 - 99 34 88<br>
+				Fax: 06332 - 99 35 84
+				</p>
+				<sec:ifAnyGranted roles="ADMIN_ROLE" >
 					<h5>Application Status</h5>
 					<ul>
 						<li>App version: <g:meta name="app.version"/></li>
@@ -26,14 +37,14 @@
 							<li>${plugin.name} - ${plugin.version}</li>
 						</g:each>
 					</ul>
+					</sec:ifAnyGranted>
 				</div>
 			</aside>
 
 			<section id="main" class="span9">
 
 				<div class="hero-unit">
-					<h1>OSPU</h1>
-					<h2>Fragebogen zur Diagnose unternehmerischer Potenziale (F-DUPN)</h2>
+					<h1>Fragebogen zur Diagnose unternehmerischer Potenziale (F-DUP)</h1>
 					
 					
 				</div>
@@ -41,22 +52,26 @@
 				<div class="row-fluid">
 					
 					<div class="span4">
-						<h2>Try It</h2>
+					<sec:ifAnyGranted roles="ADMIN_ROLE">
+						<h2>All Controller</h2>
 						<p>This demo app includes a couple of controllers to show off its features.</p>
 						<ul class="nav nav-list">
 							<g:each var="c" in="${grailsApplication.controllerClasses.sort { it.fullName } }">
 								<li><g:link controller="${c.logicalPropertyName}">${c.naturalName}</g:link></li>
 							</g:each>
 						</ul>
+					</sec:ifAnyGranted>
+						<h2>Was wollen wir?</h2>
+						<p>Ziele Text.</p>
 					</div>
 
 					<div class="span4">
-						<h2>Wie gehts</h2>
+						<h2>Wer sind wir?</h2>
 						
 					</div>
 					
 					<div class="span4">
-						<h2>Letzte Meldung</h2>
+						<h2>Wer sind sie?</h2>
 					</div>
 
 				</div>

@@ -29,7 +29,11 @@ class LoginController {
 	 */
 	def index = {
 		if (springSecurityService.isLoggedIn()) {
-			redirect uri: SpringSecurityUtils.securityConfig.successHandler.defaultTargetUrl
+			if(SpringSecurityUtils.ifAnyGranted("EXAMINEE", "ROLE_USER")){
+				redirect action: 'list', controller: 'test', params: params
+			} else {		
+				redirect uri: SpringSecurityUtils.securityConfig.successHandler.defaultTargetUrl
+			}
 		}
 		else {
 			redirect action: 'auth', params: params
@@ -44,6 +48,9 @@ class LoginController {
 		def config = SpringSecurityUtils.securityConfig
 
 		if (springSecurityService.isLoggedIn()) {
+			if(SpringSecurityUtils.ifAnyGranted("EXAMINEE, ROLE_USER"))
+			redirect action: 'list', controller: 'test', params: params
+			else
 			redirect uri: config.successHandler.defaultTargetUrl
 			return
 		}
