@@ -1,7 +1,7 @@
-
-<%@ page import="de.ospu.fdup.testimonial.Questionnaire" %>
 <!doctype html>
 <html>
+<%@ page import="de.ospu.fdup.testimonial.Questionnaire" %>
+<%@ page import="org.grails.plugins.google.visualization.formatter.BarFormatter" %>
 	<head>
 		<meta name="layout" content="bootstrap">
 		<g:set var="entityName" value="${message(code: 'questionnaire.label', default: 'Questionnaire')}" />
@@ -46,7 +46,7 @@
 					<g:if test="${questionnaireInstance?.start}">
 						<dt><g:message code="questionnaire.start.label" default="Start" /></dt>
 						
-							<dd><g:formatDate date="${questionnaireInstance?.start}" /></dd>
+						<dd><g:formatDate date="${questionnaireInstance?.start}" /></dd>
 						
 					</g:if>
 				
@@ -63,28 +63,45 @@
 							<dd><g:link controller="examinee" action="show" id="${questionnaireInstance?.examinee?.id}">${questionnaireInstance?.examinee?.encodeAsHTML()}</g:link></dd>
 						
 					</g:if>
-					<g:set var="currentArea" value=""/>
-					<g:if test="${questionnaireInstance?.questionnaireQuestions}">
+				</dl>
+					<g:set var="pointsAchieved" value="${questionnaireInstance.questionnaireQuestions.sum{(it.answer)?it.answer.points:0}}"></g:set>
+					<g:set var="pointsAvailable" value="${questionnaireInstance.questionnaireQuestions.size()}"></g:set>
+					<h2><g:message code="questionnaire.questions.pointsAchieved.all,label" default="Erreichte Punkte Gesamt"/></h2>
+					
+					<g:message code="questionnaire.questions.pointsAchieved.all" default="Erreichte Punkte" args="[pointsAchieved,pointsAvailable]" />
+					<gvisualization:apiImport/>
+					<%
+						def title = 'Auswertung'
+						def colums = [['string','Bereiche'],['number','untere Quartilgrenze'],['number',questionnaireInstance.examinee],['number','obere Quartilgrenze']]
+					   
+					%>
+					<gvisualization:lineCoreChart  vAxis="${new Expando(format:'#',gridlines:{count: 9})}" curveType="none" elementId="lineChart_div" columns="${colums}" title="${title }" data="${chartData }" width="${800}" height="${600}"/>
+					<div id="lineChart_div"></div>
+				<dl>
+					<g:each in="${resultMap.entrySet()}" var="areaEntry">
+						<g:set var="area" value="${areaEntry.key}" />
+						<g:set var="questionnaireQuestions" value="${areaEntry.value}" />
+						<g:set var="pointsAchieved" value="${questionnaireQuestions.sum{(it.answer)?it.answer.points:0}}"></g:set>
+						<g:set var="pointsAvailable" value="${questionnaireQuestions.size()}"></g:set>
+						<dt>${area}</dt>
+						<dd><g:message code="questionnaire.questions.pointsAchieved" default="Erreichte Punkte" args="[pointsAchieved,pointsAvailable]" /></dd>
+						<dd>
+						<dl class="dl-horizontal">
 						<dt><g:message code="questionnaire.questions.label" default="Questions" /></dt>
-							<g:each in="${questionnaireInstance?.questionnaireQuestions}" var="q">
-							<g:if test="${q.question.area != currentArea}">
-								<g:set var="currentArea" value="${q.question.area}"/>
-								${currentArea.encodeAsHTML()}
-							</g:if>
-							<dd>${q.question.encodeAsHTML()} -
+							<g:each in="${questionnaireQuestions}" var="q">
+							
+							<dd>${q.question.encodeAsHTML()}:
 							<g:if test="${q.answer }">
 								${q.answer.encodeAsHTML() } - 
 								${q.answer.points}
 							</g:if>
 							</dd>
+							
 							</g:each>
-					</g:if>
-					
-					
-					
-				
+						</dl>
+						</dd>
+					</g:each>
 				</dl>
-
 				<g:form>
 					<g:hiddenField name="id" value="${questionnaireInstance?.id}" />
 					<div class="form-actions">

@@ -30,7 +30,9 @@ class Question implements Comparable {
 
 	@Override
 	public int compareTo(Object o) {
-		return (ordering!=o.ordering)? ordering - o.ordering:-1
+		int comp = area.compareTo(o.area)
+		comp = (comp==0) ? ordering - o.ordering : comp
+		return (comp!=0) ? comp : 1
 	}
 	
 	

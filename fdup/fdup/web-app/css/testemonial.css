@@ -108,31 +108,30 @@
 /* Content elements */
 
 .sl-deco{
-	width: 260px;
-	height: 260px;
+	width: 200px;
+	height: 200px;
 	border: 2px dashed #ddd;
 	border: 2px dashed rgba(150,150,150,0.4);
 	border-radius: 50%;
 	position: absolute;
 	bottom: 50%;
 	left: 50%;
-	margin-left: -130px;
+	margin-left: -100px;
 }
 
 [data-icon]:after {
     content: attr(data-icon);
-    font-family: 'AnimalsNormal';
     color: #000;
 	text-shadow: 0 0 1px #000;
 	position: absolute;
-	width: 220px;
-	height: 220px;
-	line-height: 220px;
+	width: 160px;
+	height: 160px;
+	line-height: 160px;
 	text-align: center;
-	font-size: 100px;
+	font-size: 65px;
 	top: 50%;
 	left: 50%;
-	margin: -110px 0 0 -110px;
+	margin: -80px 0 0 -80px;
 	box-shadow: inset 0 0 0 10px #f7f7f7;
 	border-radius: 50%;
 }
@@ -142,8 +141,6 @@
 	text-shadow: 0 0 1px #000;
 	padding: 20px;
 	position: absolute;
-	font-size: 34px;
-	font-weight: 300;
 	letter-spacing: 13px;
 	text-transform: uppercase;
 	width: 80%;
@@ -151,6 +148,21 @@
 	text-align: center;
 	line-height: 50px;
 	bottom: 50%;
+	margin: 0 0 -120px 0;
+}
+
+.sl-slide h3 {
+	color: #000;
+	text-shadow: 0 0 1px #000;
+	padding: 20px;
+	position: absolute;
+	letter-spacing: 13px;
+	text-transform: uppercase;
+	width: 80%;
+	left: 10%;
+	text-align: left;
+	line-height: 50px;
+	top: 10%;
 	margin: 0 0 -120px 0;
 }
 
@@ -195,7 +207,8 @@
 }
 
 .sl-slide-dark [data-icon]:after,
-.sl-slide-dark.sl-slide h2 {
+.sl-slide-dark.sl-slide h2,
+.sl-slide-dark.sl-slide h3 {
 	color: #fff;
 }
 
@@ -216,6 +229,7 @@
 }
 
 .sl-slide-color-1.sl-slide h2,
+.sl-slide-color-1.sl-slide h3,
 .sl-slide-color-1.sl-slide blockquote{
 	color: #fff;
 }
@@ -236,6 +250,7 @@
 }
 
 .sl-slide-color-2.sl-slide h2,
+.sl-slide-color-2.sl-slide h3,
 .sl-slide-color-2.sl-slide blockquote{
 	color: #fff;
 	text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
@@ -252,6 +267,7 @@
 }
 
 .sl-slide-color-3.sl-slide h2,
+.sl-slide-color-3.sl-slide h3,
 .sl-slide-color-3.sl-slide blockquote{
 	color: #000;
 	text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
@@ -270,7 +286,7 @@
 	-ms-animation: roll 1s ease-out both;
 	animation: roll 1s ease-out both;
 }
-.sl-trans-elems h2{
+.sl-trans-elems h2, .sl-trans-elems h2 {
 	-webkit-animation: moveUp 1s ease-in-out both;
 	-moz-animation: moveUp 1s ease-in-out both;
 	-o-animation: moveUp 1s ease-in-out both;
@@ -352,7 +368,7 @@
 	-ms-animation: scaleDown 1s ease-in-out both;
 	animation: scaleDown 1s ease-in-out both;
 }
-.sl-trans-back-elems h2{
+.sl-trans-back-elems h2, .sl-trans-back-elems h3{
 	-webkit-animation: fadeOut 1s ease-in-out both;
 	-moz-animation: fadeOut 1s ease-in-out both;
 	-o-animation: fadeOut 1s ease-in-out both;

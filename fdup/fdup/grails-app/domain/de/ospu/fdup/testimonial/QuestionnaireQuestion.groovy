@@ -43,6 +43,6 @@ class QuestionnaireQuestion implements Comparable{
 
 	@Override
 	public int compareTo(Object o) {
-		return (ordering!=o.ordering)? ordering - o.ordering:1;
+		return question.compareTo(o.question)
 	}
 }

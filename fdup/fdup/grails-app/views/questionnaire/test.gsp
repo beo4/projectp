@@ -7,6 +7,7 @@
 		<title><g:message code="default.edit.label" args="[entityName]" /></title>
 		<link rel="stylesheet" href="${resource(dir: 'css', file: 'testemonial.css')}" type="text/css">
 		<g:javascript library="slitslider"/>
+		<g:javascript src="bootbox.js"/>
 
 	</head>
 	<body>
@@ -57,11 +58,13 @@
 				    	
 						<g:formRemote class="form-horizontal sl-slide" name="${questionnaireQuestion?.id}"
 						url="[action: 'editAjax', controller: 'QuestionnaireQuestion']"
-						onSuccess="jQuery( '#sl-slider' ).slitslider('_navigate','in')" onFailure="alert('Fehler!')" >
+						onSuccess="jQuery( '#sl-slider' ).slitslider('_navigate','in')" 
+						onFailure="bootbox.alert('Bitte w&auml;hlen Sie eine Antwort aus!')" >
 					    	<fieldset>
 					    	<g:hiddenField name="id" value="${questionnaireQuestion?.id}"/>
 					        <div class="sl-deco" data-icon="${i+1}"></div>
 					        <h2>${questionnaireQuestion?.question?.question}</h2>
+					        <h3>${questionnaireQuestion?.question?.area.encodeAsHTML()}</h3>
 					        <blockquote>
 					        	
 

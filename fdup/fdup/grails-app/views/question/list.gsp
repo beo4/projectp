@@ -40,9 +40,6 @@
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
 				
-				<!--  div class="pagination">
-					<bootstrap:paginate total="${questionInstanceTotal}" />
-				</div-->
 				<div class="tabbable">
 				
 					<ul class="nav nav-tabs">

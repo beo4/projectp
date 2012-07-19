@@ -47,6 +47,10 @@ class QuestionnaireController {
 			break
 		}
     }
+	@Secured(['ROLE_ADMIN'])
+	def showPDFview() {
+		show()
+	}
 
 	@Secured(['ROLE_ADMIN'])
     def show() {
@@ -58,10 +62,22 @@ class QuestionnaireController {
         }
 		
 		
+		SortedMap<Area, SortedSet<QuestionnaireQuestion>> resultMap = new TreeMap<Area, SortedSet<QuestionnaireQuestion>>()
 		
-
-        [questionnaireInstance: questionnaireInstance]
+		def chartData = []
+		
+		questionnaireInstance.questionnaireQuestions.collect{
+			SortedSet<QuestionnaireQuestion> a = resultMap.get(it.question.area)
+			a ? a.add(it) : resultMap.put(it.question.area, new TreeSet<QuestionnaireQuestion>([it]))
+		}
+		
+		resultMap.entrySet().collect{
+			chartData.add([it.key.name,it.key.analysisBottomLine,it.value.sum{(it.answer)?it.answer.points:0},it.key.analysisTopLine ])
+		}
+	
+        [questionnaireInstance: questionnaireInstance , resultMap:resultMap, chartData: chartData]
     }
+
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def test() {
@@ -85,11 +101,16 @@ class QuestionnaireController {
 				
 				questionnaireInstance.start = new Date()
 				
+				
+				
+				
 				if (!questionnaireInstance.save(flush: true)) {
 					flash.message = message(code: 'default.not.found.message', args: [message(code: 'questionnaire.label', default: 'Questionnaire'), params.id])
 					redirect action: 'list'
 					return
 				}
+				
+				
 	
 		        [questionnaireInstance: questionnaireInstance]
 				break

@@ -26,6 +26,6 @@ class Examinee {
 	
 	
 	public Questionnaire getActualQuestionnaire() {
-		return Questionnaire.findWhere(examinee: this, active: true)
+		return Questionnaire.findWhere(examinee: this, active: true, )
 	}
 }

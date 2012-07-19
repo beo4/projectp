@@ -1,6 +1,8 @@
 package de.ospu.fdup.testimonial
 
-class Area {
+import jodd.util.collection.SortedArrayList;
+
+class Area implements Comparable{
 
     static constraints = {
 		name ()
@@ -11,6 +13,9 @@ class Area {
 	int ordering = 0
 	SortedSet<Question> questions
 	
+	int analysisTopLine = 0
+	int analysisBottomLine = 0
+	
 	static hasMany = [questions:Question]
 	
 	static mapping = {
@@ -20,6 +25,18 @@ class Area {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		int comp =  ordering-o.ordering
+		return (comp!=0) ? comp : name.compareTo(o.name)
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		
+		return id == obj.id;
 	}
 	
 	

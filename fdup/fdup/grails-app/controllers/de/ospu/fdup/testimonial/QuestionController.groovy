@@ -16,8 +16,10 @@ class QuestionController {
     def list() {
 		def areas = Area.findAll()
 		
+		
         params.max = Math.min(params.max ? params.int('max') : 100, 100)
-        [questionInstanceList: Question.list(params), questionInstanceTotal: Question.count(), areas: areas]
+		def questionList = Question.list(params)
+        [questionInstanceList: questionList, questionInstanceTotal: Question.count(), areas: areas]
     }
 
     def create() {

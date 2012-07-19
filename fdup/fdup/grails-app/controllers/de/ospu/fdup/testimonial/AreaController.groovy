@@ -13,7 +13,7 @@ class AreaController {
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 100, 100)
-        [areaInstanceList: Area.list(params), areaInstanceTotal: Area.count()]
+        [areaInstanceList: Area.list(params).sort(), areaInstanceTotal: Area.count()]
     }
 
     def create() {

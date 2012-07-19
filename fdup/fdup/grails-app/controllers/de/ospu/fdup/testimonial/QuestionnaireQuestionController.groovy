@@ -77,11 +77,13 @@ class QuestionnaireQuestionController {
 	        }
 
 	        questionnaireQuestionInstance.properties = params
-
+			
 	        if (!questionnaireQuestionInstance.save(flush: true)) {
 	            render view: 'edit', model: [questionnaireQuestionInstance: questionnaireQuestionInstance]
 	            return
 	        }
+			
+
 
 			flash.message = message(code: 'default.updated.message', args: [message(code: 'questionnaireQuestion.label', default: 'QuestionnaireQuestion'), questionnaireQuestionInstance.id])
 	        redirect action: 'show', id: questionnaireQuestionInstance.id
@@ -90,6 +92,7 @@ class QuestionnaireQuestionController {
     }
 	
 	def editAjax() {
+		
 		switch (request.method) {
 		case 'GET':
 		render status: HttpServletResponse.SC_INTERNAL_SERVER_ERROR
@@ -118,6 +121,10 @@ class QuestionnaireQuestionController {
 			}
 
 			questionnaireQuestionInstance.properties = params
+			
+			if (params.last) {
+				questionnaireQuestionInstance.questionnaire.stop = new Date()
+			}
 
 			if (!questionnaireQuestionInstance.save(flush: true)) {
 				render status: HttpServletResponse.SC_INTERNAL_SERVER_ERROR
