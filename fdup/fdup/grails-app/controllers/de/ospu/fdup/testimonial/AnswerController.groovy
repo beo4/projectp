@@ -37,7 +37,7 @@ class AnswerController {
 	def createAjax() {
 		switch (request.method) {
 		case 'GET':
-			[answerInstance: new Answer(params)]
+			[answerInstance: new Answer('question.id': params.id)]
 			break
 		case 'POST':
 			def answerInstance = new Answer(params)

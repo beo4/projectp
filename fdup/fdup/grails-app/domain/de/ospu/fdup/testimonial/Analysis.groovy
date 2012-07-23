@@ -4,6 +4,7 @@ class Analysis {
 
     static constraints = {
 		text (maxSize: 65000)
+		area (blank:true, nullable:true)
     }
 	
 	Area area
@@ -11,5 +12,5 @@ class Analysis {
 	int pointsTill
 	String text
 	
-	boolean active 
+	boolean active = true
 }

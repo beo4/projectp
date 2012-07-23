@@ -1,4 +1,3 @@
-
 <%@ page import="de.ospu.fdup.testimonial.Questionnaire" %>
 <!doctype html>
 <html>
@@ -65,8 +64,6 @@
 						
 							<td class="link">
 								<g:link action="show" id="${questionnaireInstance.id}" class="btn btn-small">Show &raquo;</g:link>
-								<g:pdfLink pdfAction="show" pdfController="questionnaire"  pdfId="${questionnaireInstance.id}" class="btn btn-small">PDF</g:pdfLink>
-								<g:pdfLink url="/questionnaire/show/${questionnaireInstance.id}" class="btn btn-small">PDF2</g:pdfLink>
 							</td>
 						</tr>
 					</g:each>

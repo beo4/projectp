@@ -1,6 +1,6 @@
+<%@ page import="org.codehaus.groovy.grails.web.servlet.GrailsApplicationAttributes" %>
 <!doctype html>
 <html lang="en">
-<%@ page import="org.codehaus.groovy.grails.web.servlet.GrailsApplicationAttributes" %>
 	<head>
 		<meta charset="utf-8">
 		<title><g:layoutTitle default="${meta(name: 'app.name')}"/></title>
@@ -38,7 +38,7 @@
 						<span class="icon-bar"></span>
 					</a>
 					
-					<g:if test="${(questionnaireInstance && questionnaireInstance.start != null)}">
+					<g:if test="${(questionnaireInstance && questionnaireInstance.start == questionnaireInstance.stop)}">
 					<div class="nav-collapse">
 						<ul class="nav">
 							<li class="brand">F DUP</li>
@@ -52,10 +52,11 @@
 						<ul class="nav">
 							<li<%= request.forwardURI == "${createLink(uri: '/')}" ? ' class="active"' : '' %>><a href="${createLink(uri: '/')}">Home</a></li>
 							<sec:ifAllGranted roles="ROLE_ADMIN">
+							<li<%= 'questionnaire' == controllerName ? ' class="active"' : '' %>><g:link controller="questionnaire">Fragebogen</g:link></li>
+							<li<%= 'area' == controllerName ? ' class="active"' : '' %>><g:link controller="area">Bereich</g:link></li>
 							<li<%= 'question' == controllerName ? ' class="active"' : '' %>><g:link controller="question">Fragen</g:link></li>
 							<li<%= 'answer' == controllerName ? ' class="active"' : '' %>><g:link controller="answer">Antworten</g:link></li>
-							<li<%= 'area' == controllerName ? ' class="active"' : '' %>><g:link controller="area">Bereich</g:link></li>
-							<li<%= 'user' == controllerName ? ' class="active"' : '' %>><g:link controller="user">Benutzerverwaltung</g:link></li>
+							<li<%= 'examinee' == controllerName ? ' class="active"' : '' %>><g:link controller="examinee">Benutzerverwaltung</g:link></li>
 							</sec:ifAllGranted>
 							
 							<sec:ifNotLoggedIn>

@@ -64,7 +64,7 @@
 					</g:if>
 					
 						
-					<f:field bean="questionInstance" property="answers" name="answer"/>
+					<f:field bean="questionInstance" property="answers" name="myAnswer"/>
 				
 				</dl>
 
@@ -82,7 +82,7 @@
 						</button>
 					</div>
 				</g:form>
-				<bootstrap:prompt url="[controller:'answer', action:'createAjax', params: ['question.id': questionInstance.id]]" name="myAnswer" on404="alert('not found!')" />
+				<bootstrap:prompt url="[controller:'answer', action:'createAjax']" createId="${ questionInstance.id }" name="myAnswer" on404="alert('not found!')" />
 				<g:javascript>
 				var link = '<%= createLink(action:'show',controller:'answer')%>/';
 					function addAnswer(response) {

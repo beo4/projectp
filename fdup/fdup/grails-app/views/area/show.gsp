@@ -48,9 +48,12 @@
 							<dd><g:fieldValue bean="${areaInstance}" field="name"/></dd>
 						
 					</g:if>
+					<dt><g:message code="area.name.label" default="Name" /></dt>
+					<dd><f:field bean="areaInstance" property="analysises" name="myAnalysis"/></dd>
 				
 				</dl>
-
+				
+				
 				<g:form>
 					<g:hiddenField name="id" value="${areaInstance?.id}" />
 					<div class="form-actions">
@@ -64,7 +67,15 @@
 						</button>
 					</div>
 				</g:form>
-
+				<bootstrap:prompt url="[controller:'analysis', action:'createAjax']" createId="${areaInstance.id}" name="myAnalysis" on404="alert('not found!')" />
+				<g:javascript>
+				var link = '<%= createLink(action:'show',controller:'analysis')%>/';
+					function addAnalysis(response) {
+						jQuery("#myAnalysis table tbody").append(
+						jQuery('<tr>').append(jQuery('<td>').append(response.pointsFrom + ' - ' + response.pointsTill),jQuery('<td>').append(response.text))
+					);
+					}
+				</g:javascript>
 			</div>
 
 		</div>

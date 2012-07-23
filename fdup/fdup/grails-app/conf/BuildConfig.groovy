@@ -42,7 +42,7 @@ grails.project.dependency.resolution = {
         runtime ":resources:1.1.6"
 		runtime ':twitter-bootstrap:2.0.1.22'
 		runtime ':fields:1.2'
-		runtime ':pdf:0.6'
+		
 
 
         // Uncomment these (or add new ones) to enable additional resources capabilities

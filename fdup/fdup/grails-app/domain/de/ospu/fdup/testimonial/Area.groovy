@@ -16,7 +16,7 @@ class Area implements Comparable{
 	int analysisTopLine = 0
 	int analysisBottomLine = 0
 	
-	static hasMany = [questions:Question]
+	static hasMany = [questions:Question, analysises:Analysis]
 	
 	static mapping = {
 		sort ordering: 'asc'

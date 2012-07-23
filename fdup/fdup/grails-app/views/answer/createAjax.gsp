@@ -29,7 +29,7 @@
 		</g:hasErrors>
 
 		<fieldset>
-			<g:formRemote class="form-horizontal" action="createAjax" url="[controller: 'answer', action: 'createAjax']" name="answerFor${answerInstance?.question?.id}" onSuccess="addAnswer(data)">
+			<g:formRemote class="form-horizontal" action="createAjax" url="[controller: 'answer', action: 'createAjax']" name="myAnswer${answerInstance?.question?.id}" onSuccess="addAnswer(data)">
 				<fieldset>
 					<g:hiddenField name="active" value="true"/>
 					<f:field bean="answerInstance" property="text"/>

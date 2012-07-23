@@ -2,13 +2,17 @@ package de.ospu.fdup.testimonial
 
 import de.ospu.fdup.security.SecUser
 
+import grails.plugin.rendering.RenderingService;
+import grails.plugin.rendering.pdf.PdfRenderingService;
 import grails.plugins.springsecurity.Secured
 
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+import org.codehaus.groovy.grails.web.metaclass.ChainMethod;
 import org.springframework.dao.DataIntegrityViolationException
 
 class QuestionnaireController {
 	def springSecurityService
+	def jasperService
 
     static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST']
 
@@ -47,10 +51,7 @@ class QuestionnaireController {
 			break
 		}
     }
-	@Secured(['ROLE_ADMIN'])
-	def showPDFview() {
-		show()
-	}
+	
 
 	@Secured(['ROLE_ADMIN'])
     def show() {
@@ -66,17 +67,57 @@ class QuestionnaireController {
 		
 		def chartData = []
 		
-		questionnaireInstance.questionnaireQuestions.collect{
+		questionnaireInstance.questionnaireQuestions.each{
 			SortedSet<QuestionnaireQuestion> a = resultMap.get(it.question.area)
 			a ? a.add(it) : resultMap.put(it.question.area, new TreeSet<QuestionnaireQuestion>([it]))
 		}
 		
-		resultMap.entrySet().collect{
-			chartData.add([it.key.name,it.key.analysisBottomLine,it.value.sum{(it.answer)?it.answer.points:0},it.key.analysisTopLine ])
+		resultMap.entrySet().each{
+			def pointsAchieved = it.value.sum{(it.answer)?it.answer.points:0}
+			chartData.add([it.key.name,it.key.analysisBottomLine, pointsAchieved ,it.key.analysisTopLine ])
+			if (pointsAchieved>0)
+				it.key.analysises = Analysis.findAllByAreaAndPointsFromLessThanEqualsAndPointsTillGreaterThanEquals(it.key,pointsAchieved,pointsAchieved)
 		}
+		
+		def pointsAll = questionnaireInstance.questionnaireQuestions.answer.points.sum()
+		def questionnaireAnalysis = Analysis.findAllByAreaIsNullAndPointsFromLessThanEqualsAndPointsTillGreaterThanEquals(pointsAll,pointsAll)
 	
-        [questionnaireInstance: questionnaireInstance , resultMap:resultMap, chartData: chartData]
+        [questionnaireInstance: questionnaireInstance , resultMap:resultMap, chartData: chartData, questionnaireAnalysis:questionnaireAnalysis]
     }
+	
+	def renderPDF() {
+		
+		def questionnaireInstance = Questionnaire.get(params.id)
+		if (!questionnaireInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'questionnaire.label', default: 'Questionnaire'), params.id])
+			redirect action: 'list'
+			return
+		}
+		
+		
+		SortedMap<Area, SortedSet<QuestionnaireQuestion>> resultMap = new TreeMap<Area, SortedSet<QuestionnaireQuestion>>()
+		
+		def chartData = []
+		
+		questionnaireInstance.questionnaireQuestions.each{
+			SortedSet<QuestionnaireQuestion> a = resultMap.get(it.question.area)
+			a ? a.add(it) : resultMap.put(it.question.area, new TreeSet<QuestionnaireQuestion>([it]))
+		}
+		
+		resultMap.entrySet().each{
+			def pointsAchieved = it.value.sum{(it.answer)?it.answer.points:0}
+			chartData.add([it.key.name,it.key.analysisBottomLine, pointsAchieved ,it.key.analysisTopLine ])
+			if (pointsAchieved>0)
+				it.key.analysises = Analysis.findAllByAreaAndPointsFromLessThanEqualsAndPointsTillGreaterThanEquals(it.key,pointsAchieved,pointsAchieved)
+		} 
+		
+		def pointsAll = questionnaireInstance.questionnaireQuestions.answer.points.sum()
+		def questionnaireAnalysis = Analysis.findAllByAreaIsNullAndPointsFromLessThanEqualsAndPointsTillGreaterThanEquals(pointsAll,pointsAll)
+	
+		
+		renderPDF(template: '/questionnaire/show',filename:'test.pdf')
+		
+	}
 
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])

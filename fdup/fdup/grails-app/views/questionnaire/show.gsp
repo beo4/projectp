@@ -1,7 +1,7 @@
-<!doctype html>
-<html>
 <%@ page import="de.ospu.fdup.testimonial.Questionnaire" %>
 <%@ page import="org.grails.plugins.google.visualization.formatter.BarFormatter" %>
+<!doctype html>
+<html>
 	<head>
 		<meta name="layout" content="bootstrap">
 		<g:set var="entityName" value="${message(code: 'questionnaire.label', default: 'Questionnaire')}" />
@@ -39,6 +39,7 @@
 				<g:if test="${flash.message}">
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
+				
 
 				<dl>
 			
@@ -65,7 +66,7 @@
 					</g:if>
 				</dl>
 					<g:set var="pointsAchieved" value="${questionnaireInstance.questionnaireQuestions.sum{(it.answer)?it.answer.points:0}}"></g:set>
-					<g:set var="pointsAvailable" value="${questionnaireInstance.questionnaireQuestions.size()}"></g:set>
+					<g:set var="pointsAvailable" value="${questionnaireInstance.questionnaireQuestions.sum{it.question.answers.points.max()}}"></g:set>
 					<h2><g:message code="questionnaire.questions.pointsAchieved.all,label" default="Erreichte Punkte Gesamt"/></h2>
 					
 					<g:message code="questionnaire.questions.pointsAchieved.all" default="Erreichte Punkte" args="[pointsAchieved,pointsAvailable]" />
@@ -77,14 +78,21 @@
 					%>
 					<gvisualization:lineCoreChart  vAxis="${new Expando(format:'#',gridlines:{count: 9})}" curveType="none" elementId="lineChart_div" columns="${colums}" title="${title }" data="${chartData }" width="${800}" height="${600}"/>
 					<div id="lineChart_div"></div>
+					<g:each in="${questionnaireAnalysis }" var="analysis">
+					${analysis.text }
+					</g:each>
+					
 				<dl>
 					<g:each in="${resultMap.entrySet()}" var="areaEntry">
 						<g:set var="area" value="${areaEntry.key}" />
 						<g:set var="questionnaireQuestions" value="${areaEntry.value}" />
 						<g:set var="pointsAchieved" value="${questionnaireQuestions.sum{(it.answer)?it.answer.points:0}}"></g:set>
-						<g:set var="pointsAvailable" value="${questionnaireQuestions.size()}"></g:set>
+						<g:set var="pointsAvailable" value="${questionnaireQuestions.sum{it.question.answers.points.max()}}"></g:set>
 						<dt>${area}</dt>
 						<dd><g:message code="questionnaire.questions.pointsAchieved" default="Erreichte Punkte" args="[pointsAchieved,pointsAvailable]" /></dd>
+						<g:each in="${area.analysises }" var="analysis">
+							<dd>${analysis.text }</dd>
+						</g:each>
 						<dd>
 						<dl class="dl-horizontal">
 						<dt><g:message code="questionnaire.questions.label" default="Questions" /></dt>
