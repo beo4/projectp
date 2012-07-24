@@ -64,6 +64,7 @@
 						
 							<td class="link">
 								<g:link action="show" id="${questionnaireInstance.id}" class="btn btn-small">Show &raquo;</g:link>
+								<g:link action="renderPDF" id="${questionnaireInstance.id}" class="btn btn-small">PDF</g:link>
 							</td>
 						</tr>
 					</g:each>

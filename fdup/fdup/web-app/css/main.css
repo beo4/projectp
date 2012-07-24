@@ -8,14 +8,6 @@ h1, h2, h3, h4, h5, h6 {
 	line-height: 1.1;
 }
 
-@media print {
-	@page {
-    size: 8.5in 11in;  /* width height */
-    margin: 0.25in;
-}
-	
-}
-
 
 /* BASE LAYOUT */
 

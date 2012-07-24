@@ -10,8 +10,8 @@
 	<body>
 		<div class="row-fluid">
 			
-			<div class="span3">
-				<div class="well">
+			<div class="span3 ">
+				<div class="well no-print">
 					<ul class="nav nav-list">
 						<li class="nav-header">${entityName}</li>
 						<li>
@@ -27,6 +27,9 @@
 							</g:link>
 						</li>
 					</ul>
+				</div>
+				<div class="well sidebar-nav print">
+				<ospu:logo/>
 				</div>
 			</div>
 			
@@ -110,7 +113,7 @@
 						</dd>
 					</g:each>
 				</dl>
-				<g:form>
+				<g:form class="no-print">
 					<g:hiddenField name="id" value="${questionnaireInstance?.id}" />
 					<div class="form-actions">
 						<g:link class="btn" action="edit" id="${questionnaireInstance?.id}">

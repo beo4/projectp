@@ -9,16 +9,7 @@
 		<div class="row-fluid">
 			<aside id="application-status" class="span3">
 				<div class="well sidebar-nav">
-				<g:img file="ospulogo_transparent.png" />
-				<p>
-				<address>
-				OSPU business consult GmbH<br>
-				Fasaneriestraße 27<br>
-				66482 Zweibrücken<br>
-				</address>
-				Telefon: 06332 - 99 34 88<br>
-				Fax: 06332 - 99 35 84
-				</p>
+				<ospu:logo/>
 				<sec:ifAnyGranted roles="ADMIN_ROLE" >
 					<h5>Application Status</h5>
 					<ul>

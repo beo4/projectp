@@ -8,8 +8,6 @@ encoding//.link_to_grails_plugins/jquery-ui-1.8.15/grails-app/i18n/messages.prop
 encoding//.link_to_grails_plugins/mail-1.0/grails-app/i18n=UTF-8
 encoding//.link_to_grails_plugins/mail-1.0/grails-app/i18n/messages.properties=UTF-8
 encoding//.link_to_grails_plugins/mail-1.0/grails-app/i18n/messages_fr.properties=UTF-8
-encoding//.link_to_grails_plugins/pdf-0.6/grails-app/i18n=UTF-8
-encoding//.link_to_grails_plugins/pdf-0.6/grails-app/i18n/messages.properties=UTF-8
 encoding//.link_to_grails_plugins/resources-1.1.6/grails-app/i18n=UTF-8
 encoding//.link_to_grails_plugins/resources-1.1.6/grails-app/i18n/messages.properties=UTF-8
 encoding//.link_to_grails_plugins/spring-security-core-1.2.7.3/grails-app/i18n=UTF-8
@@ -36,3 +34,4 @@ encoding//grails-app/i18n/messages_ru.properties=UTF-8
 encoding//grails-app/i18n/messages_sv.properties=UTF-8
 encoding//grails-app/i18n/messages_th.properties=UTF-8
 encoding//grails-app/i18n/messages_zh_CN.properties=UTF-8
+encoding//grails-app/taglib/de/ospu/fdup/BaseTagLib.groovy=UTF-8

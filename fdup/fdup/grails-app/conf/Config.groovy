@@ -65,10 +65,11 @@ grails.hibernate.cache.queries = true
 environments {
     development {
         grails.logging.jul.usebridge = true
+		grails.serverURL = "http://localhost:8080/${appName}"
     }
     production {
         grails.logging.jul.usebridge = false
-        // TODO: grails.serverURL = "http://www.changeme.com"
+        grails.serverURL = "http://element-systems.com:8080"
     }
 }
 
@@ -110,3 +111,5 @@ log4j = {
 grails.plugins.springsecurity.userLookup.userDomainClassName = 'de.ospu.fdup.security.SecUser'
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'de.ospu.fdup.security.SecUserSecRole'
 grails.plugins.springsecurity.authority.className = 'de.ospu.fdup.security.SecRole'
+
+grails.plugins.twitterbootstrap.fixtaglib=true

@@ -1,13 +1,11 @@
 package de.ospu.fdup.testimonial
 
 import de.ospu.fdup.security.SecUser
+import de.ospu.fdup.util.JasperHelper
 
-import grails.plugin.rendering.RenderingService;
-import grails.plugin.rendering.pdf.PdfRenderingService;
 import grails.plugins.springsecurity.Secured
 
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
-import org.codehaus.groovy.grails.web.metaclass.ChainMethod;
 import org.springframework.dao.DataIntegrityViolationException
 
 class QuestionnaireController {
@@ -53,6 +51,10 @@ class QuestionnaireController {
     }
 	
 
+	def _show() {
+		show()
+		}
+	
 	@Secured(['ROLE_ADMIN'])
     def show() {
         def questionnaireInstance = Questionnaire.get(params.id)
@@ -85,6 +87,10 @@ class QuestionnaireController {
         [questionnaireInstance: questionnaireInstance , resultMap:resultMap, chartData: chartData, questionnaireAnalysis:questionnaireAnalysis]
     }
 	
+	def showPDF() {
+		show()
+	}
+	
 	def renderPDF() {
 		
 		def questionnaireInstance = Questionnaire.get(params.id)
@@ -115,10 +121,62 @@ class QuestionnaireController {
 		def questionnaireAnalysis = Analysis.findAllByAreaIsNullAndPointsFromLessThanEqualsAndPointsTillGreaterThanEquals(pointsAll,pointsAll)
 	
 		
-		renderPDF(template: '/questionnaire/show',filename:'test.pdf')
+		renderPdf(template: '/questionnaire/show',model:[questionnaireInstance: questionnaireInstance , resultMap:resultMap, chartData: chartData, questionnaireAnalysis:questionnaireAnalysis],filename:questionnaireInstance.examinee)
 		
 	}
+	
+//	def renderJasperPDF() {
+//
+//		def questionnaireInstance = Questionnaire.get(params.id)
+//		if (!questionnaireInstance) {
+//			flash.message = message(code: 'default.not.found.message', args: [
+//				message(code: 'questionnaire.label', default: 'Questionnaire'),
+//				params.id
+//			])
+//			redirect action: 'list'
+//			return
+//		}
+//		
+//		
+//
+//
+//		SortedMap<Area, SortedSet<QuestionnaireQuestion>> resultMap = new TreeMap<Area, SortedSet<QuestionnaireQuestion>>()
+//
+//		def chartData = []
+//
+//		questionnaireInstance.questionnaireQuestions.each{
+//			SortedSet<QuestionnaireQuestion> a = resultMap.get(it.question.area)
+//			a ? a.add(it) : resultMap.put(it.question.area, new TreeSet<QuestionnaireQuestion>([it]))
+//		}
+//
+//		resultMap.entrySet().each{
+//			def pointsAchieved = it.value.sum{(it.answer)?it.answer.points:0}
+//			chartData.add([
+//				it.key.name,
+//				it.key.analysisBottomLine,
+//				pointsAchieved ,
+//				it.key.analysisTopLine
+//			])
+//			if (pointsAchieved>0)
+//				it.key.analysises = Analysis.findAllByAreaAndPointsFromLessThanEqualsAndPointsTillGreaterThanEquals(it.key,pointsAchieved,pointsAchieved)
+//		}
+//
+//		def pointsAll = questionnaireInstance.questionnaireQuestions.answer.points.sum()
+//		def questionnaireAnalysis = Analysis.findAllByAreaIsNullAndPointsFromLessThanEqualsAndPointsTillGreaterThanEquals(pointsAll,pointsAll)
+//
+//		JasperHelper jh = new JasperHelper()
+//		
+//		questionnaireInstance.examinee.toString()
+//		
+//		jh.analysises = questionnaireAnalysis
+//		jh.questionnaire=questionnaireInstance
+//		jh.resultMap=resultMap
+//		
+//		chain(controller:'jasper',action:'index', model:[data:[jh]],params:params)
+//
+//	}
 
+	
 	
 	@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 	def test() {
