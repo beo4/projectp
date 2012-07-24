@@ -6,3 +6,4 @@
 %>
 <gvisualization:imageLineChart elementId="lineChart_div" columns="${colums}" title="${title }" data="${chartData }" width="${800}" height="${600}"/>
 <div id="lineChart_div"></div>
+test
