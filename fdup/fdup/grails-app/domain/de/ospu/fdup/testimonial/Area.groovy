@@ -1,6 +1,5 @@
 package de.ospu.fdup.testimonial
 
-import jodd.util.collection.SortedArrayList;
 
 class Area implements Comparable{
 
