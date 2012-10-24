@@ -10,7 +10,6 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class QuestionnaireController {
 	def springSecurityService
-	def jasperService
 
     static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST']
 
@@ -52,7 +51,10 @@ class QuestionnaireController {
 	
 
 	def _show() {
-		show()
+		def result = show()
+		
+		model:result
+		
 		}
 	
 	@Secured(['ROLE_ADMIN'])
@@ -120,8 +122,7 @@ class QuestionnaireController {
 		def pointsAll = questionnaireInstance.questionnaireQuestions.answer.points.sum()
 		def questionnaireAnalysis = Analysis.findAllByAreaIsNullAndPointsFromLessThanEqualsAndPointsTillGreaterThanEquals(pointsAll,pointsAll)
 	
-		
-		renderPdf(template: '/questionnaire/show',model:[questionnaireInstance: questionnaireInstance , resultMap:resultMap, chartData: chartData, questionnaireAnalysis:questionnaireAnalysis],filename:questionnaireInstance.examinee)
+		renderPdf(template: '/questionnaire/show',model:[ questionnaireInstance: questionnaireInstance , resultMap:resultMap, chartData: chartData, questionnaireAnalysis:questionnaireAnalysis],filename:questionnaireInstance.examinee)
 		
 	}
 	

@@ -52,12 +52,15 @@
 						
 					</g:if>
 				</dl>
+				
 					<g:set var="pointsAchieved" value="${questionnaireInstance.questionnaireQuestions.sum{(it.answer)?it.answer.points:0}}"></g:set>
 					<g:set var="pointsAvailable" value="${questionnaireInstance.questionnaireQuestions.sum{it.question.answers.points.max()}}"></g:set>
 					<h2><g:message code="questionnaire.questions.pointsAchieved.all,label" default="Erreichte Punkte Gesamt"/></h2>
 					
 					<g:message code="questionnaire.questions.pointsAchieved.all" default="Erreichte Punkte" args="[pointsAchieved,pointsAvailable]" />
-					<g:render template="/questionnaire/lineChart"/>
+					
+					<g:render template="lineChart"></g:render>
+					
 					<g:each in="${questionnaireAnalysis }" var="analysis">
 					${analysis.text }
 					</g:each>

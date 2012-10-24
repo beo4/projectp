@@ -10,7 +10,7 @@
 .sl-slider nav span ,.sl-slider nav button, .sl-slider nav input{
 	position: fixed;
 	z-index: 2000;
-	top: 50%;
+	top: 85%;
 	margin-top: -40px;
 	cursor: pointer;
 }
@@ -114,8 +114,8 @@
 	border: 2px dashed rgba(150,150,150,0.4);
 	border-radius: 50%;
 	position: absolute;
-	bottom: 50%;
-	left: 50%;
+	bottom: 70%;
+	left: 10%;
 	margin-left: -100px;
 }
 
@@ -141,14 +141,15 @@
 	text-shadow: 0 0 1px #000;
 	padding: 20px;
 	position: absolute;
-	letter-spacing: 13px;
+	letter-spacing: 5px;
 	text-transform: uppercase;
 	width: 80%;
 	left: 10%;
 	text-align: center;
 	line-height: 50px;
-	bottom: 50%;
+	bottom: 45%;
 	margin: 0 0 -120px 0;
+	font-size: 24px;
 }
 
 .sl-slide h3 {
@@ -159,7 +160,7 @@
 	letter-spacing: 13px;
 	text-transform: uppercase;
 	width: 80%;
-	left: 10%;
+	left: 20%;
 	text-align: left;
 	line-height: 50px;
 	top: 10%;
@@ -168,12 +169,12 @@
 
 .sl-slide blockquote {
 	position: absolute;
-	width: 30%;
-	left: 35%;
+	width: 70%;
+	left: 15%;
 	font-size: 13px;
-	line-height: 20px;
+	line-height: 18px;
 	z-index: 2;
-	bottom: 50%;
+	bottom: 25%;
 	margin: 0 0 -200px 0;
 	padding: 0;
 }

@@ -36,7 +36,9 @@ grails.project.dependency.resolution = {
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-		runtime 'org.docx4j:docx4j:2.8.0'
+		runtime ('org.docx4j:docx4j:2.8.0') { 
+			excludes "itext" 
+		} 
         runtime 'mysql:mysql-connector-java:5.1.16'
     }
 
@@ -44,7 +46,7 @@ grails.project.dependency.resolution = {
         runtime ":hibernate:$grailsVersion"
         runtime ":jquery:1.8.0"
         runtime ":resources:1.1.6"
-		runtime ':twitter-bootstrap:2.1.0.1'
+		runtime ':twitter-bootstrap:2.1.1'
 		runtime ':fields:1.3'
 		runtime ":rendering:0.4.3"
 		
